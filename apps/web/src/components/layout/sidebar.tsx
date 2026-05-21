@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   BarChart3,
@@ -18,35 +19,34 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/cn';
+import { MinistryWordmark } from '@/components/brand/ministry-logo';
 
 const navSections = [
   {
     label: 'Overview',
-    items: [
-      { href: '/dashboard',  label: 'Dashboard',        icon: LayoutDashboard },
-    ],
+    items: [{ href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
   },
   {
     label: 'Planning',
     items: [
-      { href: '/strategy',   label: 'Strategic Plan',   icon: Target },
-      { href: '/awps',       label: 'Annual Work Plans', icon: ClipboardCheck },
-      { href: '/programmes', label: 'Programmes',       icon: Building2 },
+      { href: '/strategy', label: 'Strategic Plan', icon: Target },
+      { href: '/awps', label: 'Annual Work Plans', icon: ClipboardCheck },
+      { href: '/programmes', label: 'Programmes', icon: Building2 },
     ],
   },
   {
     label: 'Monitoring',
     items: [
-      { href: '/indicators', label: 'Indicators',       icon: BarChart3 },
-      { href: '/reports',    label: 'Reports',          icon: FileText },
+      { href: '/indicators', label: 'Indicators', icon: BarChart3 },
+      { href: '/reports', label: 'Reports', icon: FileText },
     ],
   },
   {
     label: 'Administration',
     items: [
-      { href: '/users',      label: 'User Management',  icon: Users },
-      { href: '/audit',      label: 'Audit Log',        icon: ScrollText },
-      { href: '/admin',      label: 'Platform Settings', icon: Settings },
+      { href: '/users', label: 'User Management', icon: Users },
+      { href: '/audit', label: 'Audit Log', icon: ScrollText },
+      { href: '/admin', label: 'Platform Settings', icon: Settings },
     ],
   },
 ];
@@ -59,40 +59,40 @@ export function Sidebar() {
     <aside
       className={cn(
         'hidden md:flex flex-col shrink-0 border-r border-slate-200/80 bg-white transition-all duration-300 ease-in-out relative',
-        collapsed ? 'w-[72px]' : 'w-[272px]',
+        collapsed ? 'w-[80px]' : 'w-[280px]',
       )}
-      style={{ boxShadow: '2px 0 8px -2px rgba(0,0,0,0.04)' }}
+      style={{ boxShadow: '2px 0 12px -4px rgba(15,40,71,0.08)' }}
     >
-      {/* Logo Header */}
-      <div className={cn(
-        'flex items-center border-b border-slate-200/80 px-4 py-4 gap-3 min-h-[72px]',
-        collapsed && 'justify-center px-2'
-      )}>
-        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 shadow-sm ring-2 ring-brand-600/20">
-          {/* MOHS Logo placeholder — replace src with /mohs-logo.png if available */}
-          <img
-            src="/mohs-logo.png"
-            alt="MOHS"
-            className="h-9 w-9 rounded-full object-cover"
-            onError={(e) => {
-              // Fallback to text if image not found
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              target.parentElement!.innerHTML = '<span class="text-xs font-bold text-white leading-none">MOH</span>';
-            }}
-          />
-        </div>
-        {!collapsed && (
-          <div className="min-w-0 animate-fade-in">
-            <div className="text-sm font-bold leading-tight text-brand-900 truncate">NHPMBR</div>
-            <div className="text-[10px] font-medium leading-tight text-slate-400 truncate">
-              Ministry of Health & Sanitation
-            </div>
-          </div>
+      <div
+        className={cn(
+          'flex flex-col border-b border-slate-200/80 bg-gradient-to-b from-slate-50 to-white px-4 py-5 gap-3 min-h-[88px]',
+          collapsed && 'items-center px-2',
         )}
+      >
+        <div className={cn('flex items-center gap-3', collapsed && 'flex-col gap-2')}>
+          <div
+            className={cn(
+              'relative shrink-0 grid place-items-center rounded-full bg-white shadow-md ring-[3px] ring-accent-500/80 ring-offset-2 ring-offset-white',
+              collapsed ? 'h-14 w-14' : 'h-[4.5rem] w-[4.5rem]',
+            )}
+          >
+            <Image
+              src="/mohs-logo.png"
+              alt="Ministry of Health — Sierra Leone"
+              width={collapsed ? 52 : 68}
+              height={collapsed ? 52 : 68}
+              className="h-[88%] w-[88%] object-contain"
+            />
+          </div>
+          {!collapsed && (
+            <div className="min-w-0 animate-fade-in">
+              <p className="text-sm font-bold text-brand-900 truncate">NHPMBR</p>
+              <MinistryWordmark compact className="[&_p:first-child]:text-[11px] [&_p:last-child]:text-[9px]" />
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-3 px-2.5">
         {navSections.map((section) => (
           <div key={section.label} className="mb-4">
@@ -110,10 +110,10 @@ export function Sidebar() {
                     href={href}
                     title={collapsed ? label : undefined}
                     className={cn(
-                      'group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150',
+                      'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150',
                       collapsed && 'justify-center px-2',
                       isActive
-                        ? 'bg-brand-50 text-brand-700 shadow-sm ring-1 ring-brand-200/60'
+                        ? 'bg-brand-50 text-brand-800 shadow-sm ring-1 ring-brand-200/70'
                         : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                     )}
                   >
@@ -132,10 +132,9 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* Collapse toggle */}
       <button
         onClick={() => setCollapsed((c) => !c)}
-        className="mx-2.5 mb-3 flex items-center justify-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-700"
+        className="mx-2.5 mb-3 flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-700"
         aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {collapsed ? (
@@ -148,12 +147,11 @@ export function Sidebar() {
         )}
       </button>
 
-      {/* Footer */}
       {!collapsed && (
         <div className="border-t border-slate-100 px-4 py-3">
           <div className="flex items-center gap-2 text-[10px] text-slate-400">
-            <Shield className="h-3 w-3" />
-            <span>Government-grade security</span>
+            <Shield className="h-3 w-3 shrink-0 text-accent-600" />
+            <span>Government of Sierra Leone · Secure session</span>
           </div>
         </div>
       )}

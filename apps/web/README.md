@@ -78,6 +78,16 @@ const awps = await api.get<AwpOut[]>('/api/v1/planning/awps', {
 - Tailwind classes ensure 4.5:1 contrast on text by default.
 - Forms use semantic labels; iconography always paired with text.
 
+## Deploy on Vercel
+
+Only this app is deployed to Vercel. Keycloak and the FastAPI API must be hosted separately.
+
+1. New Vercel project → import the GitHub repo → **Root Directory:** `apps/web`.
+2. Set environment variables (`AUTH_SECRET`, `AUTH_URL`, `KEYCLOAK_*`, `NEXT_PUBLIC_API_BASE_URL`).
+3. Register Vercel callback URLs in Keycloak (`/api/auth/callback/keycloak`).
+
+Full checklist: [docs/06-deploy-vercel.md](../../docs/06-deploy-vercel.md).
+
 ## Translations
 
 Strings are inline for the MVP. From Phase 1 onwards we'll extract them

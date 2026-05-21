@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, HelpCircle, Search, LogOut } from 'lucide-react';
+import { Bell, HelpCircle, Search } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 const routeTitles: Record<string, string> = {
@@ -21,7 +21,7 @@ export function Topbar() {
   const pageTitle = routeTitles[baseRoute] ?? 'NHPMBR';
 
   return (
-    <header className="flex h-16 items-center gap-4 border-b border-slate-200/80 bg-white/80 backdrop-blur-sm px-6 sticky top-0 z-30">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-slate-200/80 bg-white/90 px-6 backdrop-blur-md">
       {/* Breadcrumb / Title */}
       <div className="flex items-center gap-2 min-w-0">
         <h2 className="text-base font-semibold text-slate-800 truncate">{pageTitle}</h2>
