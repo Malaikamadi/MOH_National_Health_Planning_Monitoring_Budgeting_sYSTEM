@@ -35,24 +35,124 @@ interface DirectorateRow {
 }
 
 const directorates: DirectorateRow[] = [
-  { code: 'DPPI', name: 'Policy, Planning & Information',     status: 'approved',           submittedAt: '2026-03-12', activitiesPlanned: 42, activitiesCompleted: 18, budgetAllocated: 2400000, budgetSpent: 890000 },
-  { code: 'DPHA', name: 'Primary Health Care Administration', status: 'under_review',       submittedAt: '2026-03-15', activitiesPlanned: 86, activitiesCompleted: 12, budgetAllocated: 5200000, budgetSpent: 1450000 },
-  { code: 'DHS',  name: 'Hospital Services',                  status: 'submitted',          submittedAt: '2026-03-18', activitiesPlanned: 51, activitiesCompleted: 8,  budgetAllocated: 3800000, budgetSpent: 620000 },
-  { code: 'RCH',  name: 'Reproductive & Child Health',        status: 'draft',              submittedAt: null,         activitiesPlanned: 0,  activitiesCompleted: 0,  budgetAllocated: 0,       budgetSpent: 0 },
-  { code: 'DDC',  name: 'Disease Prevention & Control',       status: 'revisions_requested',submittedAt: '2026-03-10', activitiesPlanned: 64, activitiesCompleted: 5,  budgetAllocated: 4100000, budgetSpent: 980000 },
-  { code: 'EPI',  name: 'Epidemiology & Surveillance',        status: 'approved',           submittedAt: '2026-03-08', activitiesPlanned: 38, activitiesCompleted: 22, budgetAllocated: 1900000, budgetSpent: 1120000 },
-  { code: 'MCH',  name: 'Maternal & Child Health',            status: 'under_review',       submittedAt: '2026-03-14', activitiesPlanned: 72, activitiesCompleted: 9,  budgetAllocated: 6100000, budgetSpent: 1890000 },
-  { code: 'NCD',  name: 'NCD & Mental Health',                status: 'active',             submittedAt: '2026-02-28', activitiesPlanned: 45, activitiesCompleted: 31, budgetAllocated: 2800000, budgetSpent: 1650000 },
-  { code: 'HR',   name: 'Human Resources for Health',         status: 'approved',           submittedAt: '2026-03-05', activitiesPlanned: 34, activitiesCompleted: 15, budgetAllocated: 1600000, budgetSpent: 720000 },
-  { code: 'NHP',  name: 'National Health Products',           status: 'submitted',          submittedAt: '2026-03-20', activitiesPlanned: 28, activitiesCompleted: 3,  budgetAllocated: 8400000, budgetSpent: 2100000 },
+  {
+    code: 'DPPI',
+    name: 'Directorate of Policy, Planning & Information',
+    status: 'approved',
+    submittedAt: '2026-03-12',
+    activitiesPlanned: 42,
+    activitiesCompleted: 18,
+    budgetAllocated: 2400000,
+    budgetSpent: 890000,
+  },
+  {
+    code: 'DPHC',
+    name: 'Directorate of Primary Health Care ',
+    status: 'under_review',
+    submittedAt: '2026-03-15',
+    activitiesPlanned: 86,
+    activitiesCompleted: 12,
+    budgetAllocated: 5200000,
+    budgetSpent: 1450000,
+  },
+  {
+    code: 'DHAS',
+    name: 'Directorate of Hospital and Ambulance Services',
+    status: 'submitted',
+    submittedAt: '2026-03-18',
+    activitiesPlanned: 51,
+    activitiesCompleted: 8,
+    budgetAllocated: 3800000,
+    budgetSpent: 620000,
+  },
+  {
+    code: 'RCH',
+    name: 'Directorate of Reproductive & Child Health',
+    status: 'draft',
+    submittedAt: null,
+    activitiesPlanned: 0,
+    activitiesCompleted: 0,
+    budgetAllocated: 0,
+    budgetSpent: 0,
+  },
+  {
+    code: 'DPC',
+    name: 'Directorate of Disease Prevention & Control',
+    status: 'revisions_requested',
+    submittedAt: '2026-03-10',
+    activitiesPlanned: 64,
+    activitiesCompleted: 5,
+    budgetAllocated: 4100000,
+    budgetSpent: 980000,
+  },
+  {
+    code: 'EPI',
+    name: 'Directorate of Epidemiology & Surveillance',
+    status: 'approved',
+    submittedAt: '2026-03-08',
+    activitiesPlanned: 38,
+    activitiesCompleted: 22,
+    budgetAllocated: 1900000,
+    budgetSpent: 1120000,
+  },
+  {
+    code: 'NCD',
+    name: 'Directorate of NCD & Mental Health',
+    status: 'active',
+    submittedAt: '2026-02-28',
+    activitiesPlanned: 45,
+    activitiesCompleted: 31,
+    budgetAllocated: 2800000,
+    budgetSpent: 1650000,
+  },
+  {
+    code: 'HR',
+    name: 'Directorate of Human Resources for Health',
+    status: 'approved',
+    submittedAt: '2026-03-05',
+    activitiesPlanned: 34,
+    activitiesCompleted: 15,
+    budgetAllocated: 1600000,
+    budgetSpent: 720000,
+  },
 ];
 
 const recentActivity = [
-  { action: 'AWP approved', entity: 'Epidemiology & Surveillance', user: 'Dr. Koroma', time: '2 hours ago', type: 'success' as const },
-  { action: 'AWP submitted for review', entity: 'Maternal & Child Health', user: 'M. Sesay', time: '5 hours ago', type: 'info' as const },
-  { action: 'Revision requested', entity: 'Disease Prevention & Control', user: 'Dr. Bangura', time: '1 day ago', type: 'warning' as const },
-  { action: 'Budget updated', entity: 'Hospital Services', user: 'F. Kamara', time: '1 day ago', type: 'info' as const },
-  { action: 'New indicator added', entity: 'NCD & Mental Health', user: 'A. Conteh', time: '2 days ago', type: 'info' as const },
+  {
+    action: 'AWP approved',
+    entity: 'Epidemiology & Surveillance',
+    user: 'Dr. Koroma',
+    time: '2 hours ago',
+    type: 'success' as const,
+  },
+  {
+    action: 'AWP submitted for review',
+    entity: 'Maternal & Child Health',
+    user: 'M. Sesay',
+    time: '5 hours ago',
+    type: 'info' as const,
+  },
+  {
+    action: 'Revision requested',
+    entity: 'Disease Prevention & Control',
+    user: 'Dr. Bangura',
+    time: '1 day ago',
+    type: 'warning' as const,
+  },
+  {
+    action: 'Budget updated',
+    entity: 'Hospital Services',
+    user: 'F. Kamara',
+    time: '1 day ago',
+    type: 'info' as const,
+  },
+  {
+    action: 'New indicator added',
+    entity: 'NCD & Mental Health',
+    user: 'A. Conteh',
+    time: '2 days ago',
+    type: 'info' as const,
+  },
 ];
 
 /* ──── Helpers ──── */
@@ -78,7 +178,7 @@ export default function DashboardPage() {
   const completedActivities = directorates.reduce((s, d) => s + d.activitiesCompleted, 0);
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="animate-fade-in space-y-8">
       {/* ── Welcome Header ── */}
       <header className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
@@ -89,7 +189,7 @@ export default function DashboardPage() {
             Fiscal Year 2026 · Annual Work Plan cycle overview across all directorates
           </p>
         </div>
-        <div className="flex gap-2 mt-3 sm:mt-0">
+        <div className="mt-3 flex gap-2 sm:mt-0">
           <Link href="/awps" className="btn-outline btn-sm">
             <Layers className="h-3.5 w-3.5" />
             View AWPs
@@ -140,17 +240,20 @@ export default function DashboardPage() {
       {/* ── Two-Column: Budget Overview + Recent Activity ── */}
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         {/* Budget Allocation */}
-        <div className="card xl:col-span-2 overflow-hidden">
+        <div className="card overflow-hidden xl:col-span-2">
           <div className="section-header">
             <div>
               <h3 className="heading-section">Budget Allocation by Directorate</h3>
-              <p className="text-xs text-slate-500 mt-0.5">FY 2026 · Top allocations</p>
+              <p className="mt-0.5 text-xs text-slate-500">FY 2026 · Top allocations</p>
             </div>
-            <Link href="/reports" className="text-xs font-semibold text-brand-700 hover:text-brand-800 transition-colors flex items-center gap-1">
+            <Link
+              href="/reports"
+              className="text-brand-700 hover:text-brand-800 flex items-center gap-1 text-xs font-semibold transition-colors"
+            >
               Full breakdown <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
-          <div className="p-6 space-y-4">
+          <div className="space-y-4 p-6">
             {directorates
               .filter((d) => d.budgetAllocated > 0)
               .sort((a, b) => b.budgetAllocated - a.budgetAllocated)
@@ -175,15 +278,20 @@ export default function DashboardPage() {
           </div>
           <div className="divide-y divide-slate-100">
             {recentActivity.map((item, i) => (
-              <div key={i} className="px-5 py-4 hover:bg-slate-50/50 transition-colors">
+              <div key={i} className="px-5 py-4 transition-colors hover:bg-slate-50/50">
                 <div className="flex items-start gap-3">
-                  <div className={`mt-0.5 h-2 w-2 shrink-0 rounded-full ${
-                    item.type === 'success' ? 'bg-emerald-500' :
-                    item.type === 'warning' ? 'bg-amber-500' : 'bg-brand-500'
-                  }`} />
+                  <div
+                    className={`mt-0.5 h-2 w-2 shrink-0 rounded-full ${
+                      item.type === 'success'
+                        ? 'bg-emerald-500'
+                        : item.type === 'warning'
+                          ? 'bg-amber-500'
+                          : 'bg-brand-500'
+                    }`}
+                  />
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-slate-800">{item.action}</p>
-                    <p className="text-xs text-slate-500 truncate">{item.entity}</p>
+                    <p className="truncate text-xs text-slate-500">{item.entity}</p>
                     <div className="mt-1 flex items-center gap-2 text-[11px] text-slate-400">
                       <span>{item.user}</span>
                       <span>·</span>
@@ -195,7 +303,10 @@ export default function DashboardPage() {
             ))}
           </div>
           <div className="border-t border-slate-100 px-5 py-3">
-            <Link href="/audit" className="text-xs font-semibold text-brand-700 hover:text-brand-800 flex items-center gap-1">
+            <Link
+              href="/audit"
+              className="text-brand-700 hover:text-brand-800 flex items-center gap-1 text-xs font-semibold"
+            >
               View all activity <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
@@ -207,7 +318,9 @@ export default function DashboardPage() {
         <div className="section-header">
           <div>
             <h3 className="heading-section">Directorate AWP Status — FY 2026</h3>
-            <p className="text-xs text-slate-500 mt-0.5">Click a row to drill into the AWP detail view</p>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Click a row to drill into the AWP detail view
+            </p>
           </div>
           <Link href="/awps" className="btn-ghost btn-sm">
             Open AWP List
@@ -234,19 +347,23 @@ export default function DashboardPage() {
                   <tr key={row.code}>
                     <td>
                       <div className="font-semibold text-slate-900">{row.name}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{row.code}</div>
+                      <div className="mt-0.5 text-xs text-slate-400">{row.code}</div>
                     </td>
-                    <td><StatusPill status={row.status} /></td>
-                    <td className="text-slate-600 text-sm">
+                    <td>
+                      <StatusPill status={row.status} />
+                    </td>
+                    <td className="text-sm text-slate-600">
                       {row.submittedAt ?? <span className="text-slate-300">—</span>}
                     </td>
                     <td className="text-right">
-                      <span className="tabular-nums font-medium text-slate-800">{row.activitiesCompleted}</span>
+                      <span className="font-medium text-slate-800 tabular-nums">
+                        {row.activitiesCompleted}
+                      </span>
                       <span className="text-slate-400"> / {row.activitiesPlanned}</span>
                     </td>
                     <td className="text-right">
                       {row.budgetAllocated > 0 ? (
-                        <span className="tabular-nums font-medium text-slate-800">
+                        <span className="font-medium text-slate-800 tabular-nums">
                           {formatCurrency(row.budgetAllocated)}
                         </span>
                       ) : (
@@ -255,13 +372,13 @@ export default function DashboardPage() {
                     </td>
                     <td className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <div className="w-16 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                        <div className="h-1.5 w-16 overflow-hidden rounded-full bg-slate-100">
                           <div
-                            className="h-full rounded-full bg-brand-500 transition-all duration-700"
+                            className="bg-brand-500 h-full rounded-full transition-all duration-700"
                             style={{ width: `${pct}%` }}
                           />
                         </div>
-                        <span className="text-xs tabular-nums font-medium text-slate-600 w-8 text-right">
+                        <span className="w-8 text-right text-xs font-medium text-slate-600 tabular-nums">
                           {pct}%
                         </span>
                       </div>
@@ -269,7 +386,7 @@ export default function DashboardPage() {
                     <td className="text-right">
                       <Link
                         href={`/awps?directorate=${row.code}`}
-                        className="text-xs font-semibold text-brand-700 hover:text-brand-800 transition-colors"
+                        className="text-brand-700 hover:text-brand-800 text-xs font-semibold transition-colors"
                       >
                         View →
                       </Link>
@@ -311,10 +428,10 @@ function KpiCard({
   deltaDirection: 'up' | 'down';
 }) {
   const toneMap = {
-    brand:  { bg: 'bg-brand-50',   text: 'text-brand-700',   icon: 'text-brand-600' },
-    accent: { bg: 'bg-accent-50',  text: 'text-accent-700',  icon: 'text-accent-600' },
-    gold:   { bg: 'bg-gold-50',    text: 'text-gold-700',    icon: 'text-gold-600' },
-    danger: { bg: 'bg-danger-50',  text: 'text-danger-700',  icon: 'text-danger-600' },
+    brand: { bg: 'bg-brand-50', text: 'text-brand-700', icon: 'text-brand-600' },
+    accent: { bg: 'bg-accent-50', text: 'text-accent-700', icon: 'text-accent-600' },
+    gold: { bg: 'bg-gold-50', text: 'text-gold-700', icon: 'text-gold-600' },
+    danger: { bg: 'bg-danger-50', text: 'text-danger-700', icon: 'text-danger-600' },
   };
   const t = toneMap[tone];
 
@@ -357,23 +474,27 @@ function BudgetBar({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-1.5">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="text-xs font-bold text-brand-700 bg-brand-50 rounded px-1.5 py-0.5">{code}</span>
-          <span className="text-sm font-medium text-slate-700 truncate">{label}</span>
+      <div className="mb-1.5 flex items-center justify-between">
+        <div className="flex min-w-0 items-center gap-2">
+          <span className="text-brand-700 bg-brand-50 rounded px-1.5 py-0.5 text-xs font-bold">
+            {code}
+          </span>
+          <span className="truncate text-sm font-medium text-slate-700">{label}</span>
         </div>
         <div className="flex items-center gap-3 text-xs">
-          <span className="tabular-nums font-semibold text-slate-800">{formatCurrency(allocated)}</span>
-          <span className="tabular-nums text-slate-400">{spentPct}% used</span>
+          <span className="font-semibold text-slate-800 tabular-nums">
+            {formatCurrency(allocated)}
+          </span>
+          <span className="text-slate-400 tabular-nums">{spentPct}% used</span>
         </div>
       </div>
-      <div className="h-2.5 w-full rounded-full bg-slate-100 overflow-hidden">
+      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-brand-500 to-brand-400 transition-all duration-700 relative"
+          className="from-brand-500 to-brand-400 relative h-full rounded-full bg-gradient-to-r transition-all duration-700"
           style={{ width: `${pct}%` }}
         >
           <div
-            className="absolute left-0 top-0 h-full rounded-full bg-brand-700/30"
+            className="bg-brand-700/30 absolute top-0 left-0 h-full rounded-full"
             style={{ width: `${spentPct}%` }}
           />
         </div>
@@ -392,10 +513,10 @@ function MiniStat({
   value: string;
 }) {
   return (
-    <div className="card-flat p-4 flex items-center gap-3">
-      <Icon className="h-5 w-5 text-slate-400 shrink-0" />
+    <div className="card-flat flex items-center gap-3 p-4">
+      <Icon className="h-5 w-5 shrink-0 text-slate-400" />
       <div>
-        <div className="text-lg font-bold tabular-nums text-slate-800">{value}</div>
+        <div className="text-lg font-bold text-slate-800 tabular-nums">{value}</div>
         <div className="text-[11px] text-slate-500">{label}</div>
       </div>
     </div>

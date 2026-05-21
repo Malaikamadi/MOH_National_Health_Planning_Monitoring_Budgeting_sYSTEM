@@ -5,7 +5,7 @@ import { QueryProvider } from '@/lib/query-client';
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
     <QueryProvider>
-      <div className="flex min-h-screen bg-gradient-subtle">
+      <div className="flex min-h-screen bg-gradient-subtle dark:bg-none dark:bg-slate-950">
         <Sidebar />
         <div className="flex min-w-0 flex-1 flex-col">
           <Topbar />
