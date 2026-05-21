@@ -39,7 +39,7 @@ export function MinistryLogo({
       aria-hidden={false}
     >
       <Image
-        src="/mohs-logo.png"
+        src="/mohs-logo.jpg"
         alt="Ministry of Health — Government of Sierra Leone"
         width={s.img}
         height={s.img}

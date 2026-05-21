@@ -77,7 +77,7 @@ export function Sidebar() {
             )}
           >
             <Image
-              src="/mohs-logo.png"
+              src="/mohs-logo.jpg"
               alt="Ministry of Health — Sierra Leone"
               width={collapsed ? 52 : 68}
               height={collapsed ? 52 : 68}
