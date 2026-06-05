@@ -54,6 +54,7 @@ export function DirectoratePerformanceBarChart() {
           <Tooltip
             cursor={{ fill: '#f1f5f9' }}
             contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             formatter={(value: any) => [`${value}%`, 'Performance']}
           />
           <Bar dataKey="performance" radius={[4, 4, 0, 0]} maxBarSize={40}>
@@ -87,6 +88,7 @@ export function BudgetUtilizationPieChart() {
             ))}
           </Pie>
           <Tooltip 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             formatter={(value: any) => formatCurrency(value)}
             contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
           />
@@ -94,7 +96,8 @@ export function BudgetUtilizationPieChart() {
             verticalAlign="bottom" 
             height={36} 
             iconType="circle"
-            formatter={(value, entry: any) => (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+            formatter={(value, _entry: any) => (
               <span className="text-xs font-medium text-slate-600 dark:text-slate-300 ml-1">
                 {value}
               </span>
