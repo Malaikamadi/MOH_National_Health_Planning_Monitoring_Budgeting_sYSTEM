@@ -1,523 +1,247 @@
 import Link from 'next/link';
 import {
-  ArrowUpRight,
-  CheckCircle2,
-  Clock,
-  FileWarning,
-  Layers,
-  TrendingUp,
-  TrendingDown,
-  Calendar,
-  DollarSign,
-  Activity,
-  MapPin,
-  Users,
-  FileCheck2,
-  AlertTriangle,
   ArrowRight,
+  BarChart3,
+  CalendarClock,
+  CheckCircle2,
+  ClipboardCheck,
+  DollarSign,
+  FolderKanban,
+  Layers,
+  Target,
+  TrendingUp,
+  Users2,
 } from 'lucide-react';
-import { StatusPill } from '@/components/ui/status-pill';
-import type { AwpStatus } from '@/lib/api-client';
 
 export const metadata = { title: 'Dashboard' };
 
-/* ──── Mock Data ──── */
-
-interface DirectorateRow {
-  code: string;
-  name: string;
-  status: AwpStatus;
+type UnitAwp = {
+  unit: string;
+  directorate: string;
+  status: 'submitted' | 'draft' | 'under_review';
   submittedAt: string | null;
-  activitiesPlanned: number;
-  activitiesCompleted: number;
-  budgetAllocated: number;
-  budgetSpent: number;
-}
+  activitiesPerformance: number;
+  amountNeeded: number;
+  amountUsed: number;
+};
 
-const directorates: DirectorateRow[] = [
-  {
-    code: 'DPPI',
-    name: 'Directorate of Policy, Planning & Information',
-    status: 'approved',
-    submittedAt: '2026-03-12',
-    activitiesPlanned: 42,
-    activitiesCompleted: 18,
-    budgetAllocated: 2400000,
-    budgetSpent: 890000,
-  },
-  {
-    code: 'DPHC',
-    name: 'Directorate of Primary Health Care ',
-    status: 'under_review',
-    submittedAt: '2026-03-15',
-    activitiesPlanned: 86,
-    activitiesCompleted: 12,
-    budgetAllocated: 5200000,
-    budgetSpent: 1450000,
-  },
-  {
-    code: 'DHAS',
-    name: 'Directorate of Hospital and Ambulance Services',
-    status: 'submitted',
-    submittedAt: '2026-03-18',
-    activitiesPlanned: 51,
-    activitiesCompleted: 8,
-    budgetAllocated: 3800000,
-    budgetSpent: 620000,
-  },
-  {
-    code: 'RCH',
-    name: 'Directorate of Reproductive & Child Health',
-    status: 'draft',
-    submittedAt: null,
-    activitiesPlanned: 0,
-    activitiesCompleted: 0,
-    budgetAllocated: 0,
-    budgetSpent: 0,
-  },
-  {
-    code: 'DPC',
-    name: 'Directorate of Disease Prevention & Control',
-    status: 'revisions_requested',
-    submittedAt: '2026-03-10',
-    activitiesPlanned: 64,
-    activitiesCompleted: 5,
-    budgetAllocated: 4100000,
-    budgetSpent: 980000,
-  },
-  {
-    code: 'EPI',
-    name: 'Directorate of Epidemiology & Surveillance',
-    status: 'approved',
-    submittedAt: '2026-03-08',
-    activitiesPlanned: 38,
-    activitiesCompleted: 22,
-    budgetAllocated: 1900000,
-    budgetSpent: 1120000,
-  },
-  {
-    code: 'NCD',
-    name: 'Directorate of NCD & Mental Health',
-    status: 'active',
-    submittedAt: '2026-02-28',
-    activitiesPlanned: 45,
-    activitiesCompleted: 31,
-    budgetAllocated: 2800000,
-    budgetSpent: 1650000,
-  },
-  {
-    code: 'HR',
-    name: 'Directorate of Human Resources for Health',
-    status: 'approved',
-    submittedAt: '2026-03-05',
-    activitiesPlanned: 34,
-    activitiesCompleted: 15,
-    budgetAllocated: 1600000,
-    budgetSpent: 720000,
-  },
+const unitAwps: UnitAwp[] = [
+  { unit: 'M&E Unit', directorate: 'DPPI', status: 'submitted', submittedAt: '2026-04-04', activitiesPerformance: 64, amountNeeded: 360000, amountUsed: 210000 },
+  { unit: 'Planning Unit', directorate: 'DPPI', status: 'submitted', submittedAt: '2026-04-03', activitiesPerformance: 58, amountNeeded: 410000, amountUsed: 226000 },
+  { unit: 'EPI Unit', directorate: 'DPHC', status: 'under_review', submittedAt: '2026-04-06', activitiesPerformance: 49, amountNeeded: 520000, amountUsed: 231000 },
+  { unit: 'Nutrition Unit', directorate: 'DPHC', status: 'draft', submittedAt: null, activitiesPerformance: 30, amountNeeded: 250000, amountUsed: 90000 },
+  { unit: 'Surveillance Unit', directorate: 'DPC', status: 'submitted', submittedAt: '2026-04-01', activitiesPerformance: 71, amountNeeded: 470000, amountUsed: 320000 },
+  { unit: 'Laboratory Unit', directorate: 'DPC', status: 'submitted', submittedAt: '2026-04-05', activitiesPerformance: 61, amountNeeded: 300000, amountUsed: 160000 },
 ];
 
-const recentActivity = [
-  {
-    action: 'AWP approved',
-    entity: 'Epidemiology & Surveillance',
-    user: 'Dr. Koroma',
-    time: '2 hours ago',
-    type: 'success' as const,
-  },
-  {
-    action: 'AWP submitted for review',
-    entity: 'Maternal & Child Health',
-    user: 'M. Sesay',
-    time: '5 hours ago',
-    type: 'info' as const,
-  },
-  {
-    action: 'Revision requested',
-    entity: 'Disease Prevention & Control',
-    user: 'Dr. Bangura',
-    time: '1 day ago',
-    type: 'warning' as const,
-  },
-  {
-    action: 'Budget updated',
-    entity: 'Hospital Services',
-    user: 'F. Kamara',
-    time: '1 day ago',
-    type: 'info' as const,
-  },
-  {
-    action: 'New indicator added',
-    entity: 'NCD & Mental Health',
-    user: 'A. Conteh',
-    time: '2 days ago',
-    type: 'info' as const,
-  },
+const quarterlyActivities = [
+  { quarter: 'Q2 2026', item: 'Integrated supportive supervision in 16 districts', due: 'May 20' },
+  { quarter: 'Q2 2026', item: 'Maternal mortality review dissemination', due: 'Jun 03' },
+  { quarter: 'Q3 2026', item: 'National immunization outreach campaign', due: 'Jul 15' },
+  { quarter: 'Q3 2026', item: 'Data quality audit across referral hospitals', due: 'Aug 02' },
 ];
 
-/* ──── Helpers ──── */
+const programmeLeads = [
+  { programme: 'RMNCAH', lead: 'Dr. Z. Koroma' },
+  { programme: 'EPI', lead: 'Dr. K. Bangura' },
+  { programme: 'TB/Leprosy', lead: 'Dr. M. Sesay' },
+  { programme: 'HIV/AIDS', lead: 'Dr. F. Kamara' },
+];
 
-function formatCurrency(value: number): string {
+function formatLeones(value: number): string {
   if (value >= 1_000_000) return `Le ${(value / 1_000_000).toFixed(1)}M`;
   if (value >= 1_000) return `Le ${(value / 1_000).toFixed(0)}K`;
   return `Le ${value}`;
 }
 
-function progressPercent(completed: number, total: number): number {
-  if (total === 0) return 0;
-  return Math.round((completed / total) * 100);
+function statusClass(status: UnitAwp['status']): string {
+  if (status === 'submitted') return 'badge-green';
+  if (status === 'under_review') return 'badge-amber';
+  return 'badge-slate';
 }
-
-/* ──── Page ──── */
 
 export default function DashboardPage() {
-  const totalBudget = directorates.reduce((s, d) => s + d.budgetAllocated, 0);
-  const totalSpent = directorates.reduce((s, d) => s + d.budgetSpent, 0);
-  const burnRate = totalBudget > 0 ? Math.round((totalSpent / totalBudget) * 100) : 0;
-  const totalActivities = directorates.reduce((s, d) => s + d.activitiesPlanned, 0);
-  const completedActivities = directorates.reduce((s, d) => s + d.activitiesCompleted, 0);
+  const totalUnits = unitAwps.length;
+  const submitted = unitAwps.filter((u) => u.status === 'submitted').length;
+  const totalNeeded = unitAwps.reduce((sum, u) => sum + u.amountNeeded, 0);
+  const totalUsed = unitAwps.reduce((sum, u) => sum + u.amountUsed, 0);
+  const avgPerformance = Math.round(unitAwps.reduce((sum, u) => sum + u.activitiesPerformance, 0) / unitAwps.length);
+  const uniqueDirectorates = new Set(unitAwps.map((u) => u.directorate)).size;
+  const utilization = totalNeeded > 0 ? Math.round((totalUsed / totalNeeded) * 100) : 0;
 
   return (
-    <div className="animate-fade-in space-y-8">
-      {/* ── Welcome Header ── */}
-      <header className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="heading-page">
-            Welcome back, <span className="text-brand-700">Admin</span>
-          </h1>
-          <p className="text-muted mt-1">
-            Fiscal Year 2026 · Annual Work Plan cycle overview across all directorates
-          </p>
-        </div>
-        <div className="mt-3 flex gap-2 sm:mt-0">
-          <Link href="/awps" className="btn-outline btn-sm">
-            <Layers className="h-3.5 w-3.5" />
-            View AWPs
-          </Link>
-          <Link href="/reports" className="btn-primary btn-sm">
-            <FileCheck2 className="h-3.5 w-3.5" />
-            Generate Report
-          </Link>
-        </div>
-      </header>
-
-      {/* ── KPI Cards ── */}
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard
-          title="AWPs Submitted"
-          value="7 of 14"
-          icon={Layers}
-          tone="brand"
-          delta="+2 this week"
-          deltaDirection="up"
-        />
-        <KpiCard
-          title="Total Budget"
-          value={formatCurrency(totalBudget)}
-          icon={DollarSign}
-          tone="gold"
-          delta={`${burnRate}% utilized`}
-          deltaDirection={burnRate > 50 ? 'up' : 'down'}
-        />
-        <KpiCard
-          title="Activities Progress"
-          value={`${completedActivities} / ${totalActivities}`}
-          icon={Activity}
-          tone="accent"
-          delta={`${progressPercent(completedActivities, totalActivities)}% complete`}
-          deltaDirection="up"
-        />
-        <KpiCard
-          title="Revisions Pending"
-          value="1"
-          icon={AlertTriangle}
-          tone="danger"
-          delta="Needs attention"
-          deltaDirection="down"
-        />
-      </section>
-
-      {/* ── Two-Column: Budget Overview + Recent Activity ── */}
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-        {/* Budget Allocation */}
-        <div className="card overflow-hidden xl:col-span-2">
-          <div className="section-header">
-            <div>
-              <h3 className="heading-section">Budget Allocation by Directorate</h3>
-              <p className="mt-0.5 text-xs text-slate-500">FY 2026 · Top allocations</p>
-            </div>
-            <Link
-              href="/reports"
-              className="text-brand-700 hover:text-brand-800 flex items-center gap-1 text-xs font-semibold transition-colors"
-            >
-              Full breakdown <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
-          <div className="space-y-4 p-6">
-            {directorates
-              .filter((d) => d.budgetAllocated > 0)
-              .sort((a, b) => b.budgetAllocated - a.budgetAllocated)
-              .slice(0, 6)
-              .map((d) => (
-                <BudgetBar
-                  key={d.code}
-                  label={d.name}
-                  code={d.code}
-                  allocated={d.budgetAllocated}
-                  spent={d.budgetSpent}
-                  maxBudget={8_400_000}
-                />
-              ))}
-          </div>
-        </div>
-
-        {/* Recent Activity */}
-        <div className="card overflow-hidden">
-          <div className="section-header">
-            <h3 className="heading-section">Recent Activity</h3>
-          </div>
-          <div className="divide-y divide-slate-100">
-            {recentActivity.map((item, i) => (
-              <div key={i} className="px-5 py-4 transition-colors hover:bg-slate-50/50">
-                <div className="flex items-start gap-3">
-                  <div
-                    className={`mt-0.5 h-2 w-2 shrink-0 rounded-full ${
-                      item.type === 'success'
-                        ? 'bg-emerald-500'
-                        : item.type === 'warning'
-                          ? 'bg-amber-500'
-                          : 'bg-brand-500'
-                    }`}
-                  />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-slate-800">{item.action}</p>
-                    <p className="truncate text-xs text-slate-500">{item.entity}</p>
-                    <div className="mt-1 flex items-center gap-2 text-[11px] text-slate-400">
-                      <span>{item.user}</span>
-                      <span>·</span>
-                      <span>{item.time}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="border-t border-slate-100 px-5 py-3">
-            <Link
-              href="/audit"
-              className="text-brand-700 hover:text-brand-800 flex items-center gap-1 text-xs font-semibold"
-            >
-              View all activity <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Directorate AWP Table ── */}
-      <section className="card overflow-hidden">
-        <div className="section-header">
+    <div className="space-y-8 animate-fade-in">
+      <section className="rounded-2xl border border-accent-200/70 bg-gradient-to-r from-accent-50 via-white to-accent-50 p-6 shadow-card dark:border-accent-800/40 dark:from-accent-950/30 dark:via-slate-900 dark:to-accent-950/20">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h3 className="heading-section">Directorate AWP Status — FY 2026</h3>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Click a row to drill into the AWP detail view
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent-700 dark:text-accent-400">User Perspective Dashboard</p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Annual Work Plan Submission</h1>
+            <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
+              Each unit submits its own AWP using the standard template. Submissions feed to the directorate, CMO, and leadership master view.
             </p>
           </div>
-          <Link href="/awps" className="btn-ghost btn-sm">
-            Open AWP List
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/awps/new" className="btn-primary"><ClipboardCheck className="h-4 w-4" />Submit AWP</Link>
+            <Link href="/awps" className="btn-outline"><Layers className="h-4 w-4" />Use AWP template</Link>
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Directorate</th>
-                <th>Status</th>
-                <th>Submitted</th>
-                <th className="text-right">Activities</th>
-                <th className="text-right">Budget</th>
-                <th className="text-right">Progress</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {directorates.map((row) => {
-                const pct = progressPercent(row.activitiesCompleted, row.activitiesPlanned);
-                return (
-                  <tr key={row.code}>
-                    <td>
-                      <div className="font-semibold text-slate-900">{row.name}</div>
-                      <div className="mt-0.5 text-xs text-slate-400">{row.code}</div>
-                    </td>
-                    <td>
-                      <StatusPill status={row.status} />
-                    </td>
-                    <td className="text-sm text-slate-600">
-                      {row.submittedAt ?? <span className="text-slate-300">—</span>}
-                    </td>
-                    <td className="text-right">
-                      <span className="font-medium text-slate-800 tabular-nums">
-                        {row.activitiesCompleted}
-                      </span>
-                      <span className="text-slate-400"> / {row.activitiesPlanned}</span>
-                    </td>
-                    <td className="text-right">
-                      {row.budgetAllocated > 0 ? (
-                        <span className="font-medium text-slate-800 tabular-nums">
-                          {formatCurrency(row.budgetAllocated)}
-                        </span>
-                      ) : (
-                        <span className="text-slate-300">—</span>
-                      )}
-                    </td>
-                    <td className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <div className="h-1.5 w-16 overflow-hidden rounded-full bg-slate-100">
-                          <div
-                            className="bg-brand-500 h-full rounded-full transition-all duration-700"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                        <span className="w-8 text-right text-xs font-medium text-slate-600 tabular-nums">
-                          {pct}%
-                        </span>
-                      </div>
-                    </td>
-                    <td className="text-right">
-                      <Link
-                        href={`/awps?directorate=${row.code}`}
-                        className="text-brand-700 hover:text-brand-800 text-xs font-semibold transition-colors"
-                      >
-                        View →
-                      </Link>
-                    </td>
+      </section>
+
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard icon={CheckCircle2} title="Plans submitted" value={`${submitted} / ${totalUnits}`} note="Units completed" />
+        <KpiCard icon={BarChart3} title="Activities performance" value={`${avgPerformance}%`} note="Average across units" />
+        <KpiCard icon={DollarSign} title="Amount needed" value={formatLeones(totalNeeded)} note="FY 2026 consolidated" />
+        <KpiCard icon={TrendingUp} title="Amount used" value={formatLeones(totalUsed)} note={`${utilization}% utilization`} />
+      </section>
+
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <div className="card overflow-hidden xl:col-span-2 dark:border-slate-800/80 dark:bg-slate-900">
+          <div className="section-header dark:border-slate-800/80">
+            <div>
+              <h3 className="heading-section dark:text-slate-100">Units and directorates submissions</h3>
+              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">View number of plans submitted per unit and directorate</p>
+            </div>
+            <Link href="/awps" className="btn-ghost btn-sm">View all AWPs<ArrowRight className="h-3.5 w-3.5" /></Link>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="data-table">
+              <thead className="dark:bg-slate-800/70">
+                <tr>
+                  <th>Unit</th>
+                  <th>Directorate</th>
+                  <th>Status</th>
+                  <th>Submitted</th>
+                  <th className="text-right">Performance</th>
+                  <th className="text-right">Amount Needed</th>
+                  <th className="text-right">Amount Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                {unitAwps.map((row) => (
+                  <tr key={`${row.directorate}-${row.unit}`} className="dark:border-slate-800/60 dark:hover:bg-slate-800/50">
+                    <td className="font-medium text-slate-800 dark:text-slate-100">{row.unit}</td>
+                    <td><span className="badge-blue">{row.directorate}</span></td>
+                    <td><span className={`badge ${statusClass(row.status)}`}>{row.status.replace('_', ' ')}</span></td>
+                    <td className="text-sm text-slate-600 dark:text-slate-300">{row.submittedAt ?? <span className="text-slate-300 dark:text-slate-600">—</span>}</td>
+                    <td className="text-right font-semibold tabular-nums text-slate-800 dark:text-slate-100">{row.activitiesPerformance}%</td>
+                    <td className="text-right font-semibold tabular-nums text-slate-800 dark:text-slate-100">{formatLeones(row.amountNeeded)}</td>
+                    <td className="text-right font-semibold tabular-nums text-slate-800 dark:text-slate-100">{formatLeones(row.amountUsed)}</td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="card overflow-hidden dark:border-slate-800/80 dark:bg-slate-900">
+            <div className="section-header dark:border-slate-800/80"><h3 className="heading-section dark:text-slate-100">Upcoming activities by quarter</h3></div>
+            <div className="divide-y divide-slate-100 dark:divide-slate-800/70">
+              {quarterlyActivities.map((item) => (
+                <div key={item.item} className="px-5 py-4">
+                  <p className="text-xs font-bold uppercase tracking-wide text-accent-700 dark:text-accent-400">{item.quarter}</p>
+                  <p className="mt-1 text-sm font-medium text-slate-800 dark:text-slate-100">{item.item}</p>
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Due: {item.due}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card overflow-hidden dark:border-slate-800/80 dark:bg-slate-900">
+            <div className="section-header dark:border-slate-800/80"><h3 className="heading-section dark:text-slate-100">Programmes</h3></div>
+            <div className="px-5 py-4">
+              <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">{programmeLeads.length}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Number of programmes</p>
+              <div className="mt-4 space-y-2">
+                {programmeLeads.map((p) => (
+                  <div key={p.programme} className="rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/70">
+                    <p className="text-xs font-semibold text-slate-800 dark:text-slate-100">{p.programme}</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Lead: {p.lead}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── Quick Stats Footer ── */}
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <div className="card p-6 xl:col-span-2 dark:border-slate-800/80 dark:bg-slate-900">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">Strategic plan</p>
+              <h3 className="mt-2 text-xl font-bold text-slate-900 dark:text-slate-100">NHSSP: National Health Sector Strategic Plan 2026–2030</h3>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Strategic outcomes and NHSSP indicators are anchored here and appear under each directorate plan over time.</p>
+            </div>
+            <Target className="h-7 w-7 shrink-0 text-brand-700 dark:text-brand-300" />
+          </div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <StrategicMini label="Directorates aligned" value={`${uniqueDirectorates}`} />
+            <StrategicMini label="NHSSP indicators" value="142" />
+            <StrategicMini label="Strategic period" value="2026–2030" />
+          </div>
+        </div>
+
+        <div className="card p-6 dark:border-slate-800/80 dark:bg-slate-900">
+          <h3 className="heading-section dark:text-slate-100">Recently activities</h3>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">View units with directorate activities</p>
+          <div className="mt-4 space-y-3">
+            <RecentItem title="M&E Unit submitted AWP" subtitle="DPPI · 2 hours ago" />
+            <RecentItem title="EPI Unit submitted under review" subtitle="DPHC · today" />
+            <RecentItem title="Laboratory performance updated" subtitle="DPC · yesterday" />
+          </div>
+          <Link href="/reports" className="btn-ghost btn-sm mt-4">Open activity report<ArrowRight className="h-3.5 w-3.5" /></Link>
+        </div>
+      </section>
+
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <MiniStat icon={MapPin} label="Districts Reporting" value="14 / 16" />
-        <MiniStat icon={Users} label="Active Users" value="89" />
-        <MiniStat icon={Calendar} label="Days to Deadline" value="42" />
-        <MiniStat icon={CheckCircle2} label="Indicators Tracked" value="156" />
+        <FooterStat icon={Users2} label="Unit accounts" value="48 active" />
+        <FooterStat icon={FolderKanban} label="Directorate plans" value="14 tracked" />
+        <FooterStat icon={CalendarClock} label="Quarter in focus" value="Q2 2026" />
+        <FooterStat icon={Layers} label="Master feed" value="CMO + Leadership" />
       </section>
     </div>
   );
 }
 
-/* ──── Sub-components ──── */
-
-function KpiCard({
-  title,
-  value,
-  icon: Icon,
-  tone,
-  delta,
-  deltaDirection,
-}: {
-  title: string;
-  value: string;
-  icon: React.ComponentType<{ className?: string }>;
-  tone: 'brand' | 'accent' | 'gold' | 'danger';
-  delta: string;
-  deltaDirection: 'up' | 'down';
-}) {
-  const toneMap = {
-    brand: { bg: 'bg-brand-50', text: 'text-brand-700', icon: 'text-brand-600' },
-    accent: { bg: 'bg-accent-50', text: 'text-accent-700', icon: 'text-accent-600' },
-    gold: { bg: 'bg-gold-50', text: 'text-gold-700', icon: 'text-gold-600' },
-    danger: { bg: 'bg-danger-50', text: 'text-danger-700', icon: 'text-danger-600' },
-  };
-  const t = toneMap[tone];
-
+function KpiCard({ icon: Icon, title, value, note }: { icon: React.ComponentType<{ className?: string }>; title: string; value: string; note: string }) {
   return (
-    <div className="kpi-card">
-      <div className={`kpi-icon ${t.bg}`}>
-        <Icon className={`h-6 w-6 ${t.icon}`} />
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="kpi-label">{title}</div>
-        <div className="kpi-value">{value}</div>
-        <div className={`mt-1 ${deltaDirection === 'up' ? 'kpi-delta-up' : 'kpi-delta-down'}`}>
-          {deltaDirection === 'up' ? (
-            <TrendingUp className="h-3 w-3" />
-          ) : (
-            <TrendingDown className="h-3 w-3" />
-          )}
-          {delta}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BudgetBar({
-  label,
-  code,
-  allocated,
-  spent,
-  maxBudget,
-}: {
-  label: string;
-  code: string;
-  allocated: number;
-  spent: number;
-  maxBudget: number;
-}) {
-  const pct = Math.round((allocated / maxBudget) * 100);
-  const spentPct = allocated > 0 ? Math.round((spent / allocated) * 100) : 0;
-
-  return (
-    <div>
-      <div className="mb-1.5 flex items-center justify-between">
-        <div className="flex min-w-0 items-center gap-2">
-          <span className="text-brand-700 bg-brand-50 rounded px-1.5 py-0.5 text-xs font-bold">
-            {code}
-          </span>
-          <span className="truncate text-sm font-medium text-slate-700">{label}</span>
-        </div>
-        <div className="flex items-center gap-3 text-xs">
-          <span className="font-semibold text-slate-800 tabular-nums">
-            {formatCurrency(allocated)}
-          </span>
-          <span className="text-slate-400 tabular-nums">{spentPct}% used</span>
-        </div>
-      </div>
-      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
-        <div
-          className="from-brand-500 to-brand-400 relative h-full rounded-full bg-gradient-to-r transition-all duration-700"
-          style={{ width: `${pct}%` }}
-        >
-          <div
-            className="bg-brand-700/30 absolute top-0 left-0 h-full rounded-full"
-            style={{ width: `${spentPct}%` }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MiniStat({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="card-flat flex items-center gap-3 p-4">
-      <Icon className="h-5 w-5 shrink-0 text-slate-400" />
+    <article className="kpi-card dark:border-slate-800/80 dark:bg-slate-900">
+      <div className="kpi-icon bg-accent-50 dark:bg-accent-900/30"><Icon className="h-5 w-5 text-accent-700 dark:text-accent-400" /></div>
       <div>
-        <div className="text-lg font-bold text-slate-800 tabular-nums">{value}</div>
-        <div className="text-[11px] text-slate-500">{label}</div>
+        <p className="kpi-label dark:text-slate-400">{title}</p>
+        <p className="kpi-value dark:text-slate-100">{value}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{note}</p>
+      </div>
+    </article>
+  );
+}
+
+function StrategicMini({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-slate-200/80 bg-slate-50 p-4 dark:border-slate-800/70 dark:bg-slate-800/60">
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{label}</p>
+      <p className="mt-1 text-lg font-bold text-slate-900 dark:text-slate-100">{value}</p>
+    </div>
+  );
+}
+
+function RecentItem({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <div className="rounded-lg border border-slate-200/80 px-3 py-2 dark:border-slate-800/70">
+      <p className="text-sm font-medium text-slate-800 dark:text-slate-100">{title}</p>
+      <p className="text-[11px] text-slate-500 dark:text-slate-400">{subtitle}</p>
+    </div>
+  );
+}
+
+function FooterStat({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: string }) {
+  return (
+    <div className="card-flat flex items-center gap-3 p-4 dark:border-slate-800/80 dark:bg-slate-900">
+      <Icon className="h-5 w-5 shrink-0 text-brand-700 dark:text-brand-300" />
+      <div>
+        <div className="text-sm font-bold text-slate-900 dark:text-slate-100">{value}</div>
+        <div className="text-[11px] text-slate-500 dark:text-slate-400">{label}</div>
       </div>
     </div>
   );

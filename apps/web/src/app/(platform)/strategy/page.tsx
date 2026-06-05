@@ -180,9 +180,9 @@ export default function StrategyPage() {
       {/* ── Header ── */}
       <header className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="heading-page">National Health Strategic Plan</h1>
-          <p className="text-muted mt-1">
-            2024–2028 · Strategic Alignment and key metrics dashboard mapped to SDG targets.
+          <h1 className="heading-page dark:text-white">NHSSP — National Health Sector Strategic Plan</h1>
+          <p className="text-muted mt-1 dark:text-slate-400">
+            2026–2030 · Strategic objectives and NHSSP indicators mapped to SDG targets. Appears under directorate plans.
           </p>
         </div>
         <div className="flex gap-2 mt-3 sm:mt-0">
@@ -371,7 +371,7 @@ export default function StrategyPage() {
                           <th className="px-4 py-3 font-semibold text-slate-500">Indicator Name</th>
                           <th className="px-4 py-3 font-semibold text-slate-500 text-right">Baseline</th>
                           <th className="px-4 py-3 font-semibold text-slate-500 text-right">Current Value</th>
-                          <th className="px-4 py-3 font-semibold text-slate-500 text-right">Target (2028)</th>
+                          <th className="px-4 py-3 font-semibold text-slate-500 text-right">Target (2030)</th>
                           <th className="px-4 py-3 font-semibold text-slate-500 text-center">Status</th>
                         </tr>
                       </thead>

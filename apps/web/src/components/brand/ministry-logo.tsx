@@ -33,7 +33,7 @@ export function MinistryLogo({
       className={cn(
         'relative shrink-0 grid place-items-center rounded-full bg-white shadow-elevated',
         s.box,
-        showSealRing && cn(s.ring, 'ring-accent-500/90 ring-offset-2 ring-offset-white'),
+        showSealRing && cn(s.ring, 'ring-accent-600/90 ring-offset-2 ring-offset-white'),
         className,
       )}
       aria-hidden={false}
@@ -44,7 +44,7 @@ export function MinistryLogo({
         width={s.img}
         height={s.img}
         priority={priority}
-        className="h-[88%] w-[88%] object-contain"
+        className="h-[88%] w-[88%] object-contain rounded-full"
       />
     </div>
   );

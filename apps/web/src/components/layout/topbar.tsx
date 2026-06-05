@@ -1,15 +1,18 @@
 'use client';
 
-import { Bell, HelpCircle, Search } from 'lucide-react';
+import { Bell, HelpCircle, Search, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '../theme-toggle';
+import { useAuth, getRoleLabel } from '@/lib/auth-context';
 
 const routeTitles: Record<string, string> = {
-  '/dashboard': 'Dashboard',
-  '/strategy': 'Strategic Plan',
+  '/dashboard': 'Administrative Console',
+  '/director-dashboard': 'Directorate Dashboard',
+  '/user-dashboard': 'User Portal Dashboard',
+  '/strategy': 'NHSSP — Strategic Plan',
   '/awps': 'Annual Work Plans',
   '/programmes': 'Programmes',
-  '/indicators': 'Indicators',
+  '/monitoring': 'Monitoring & Evaluation',
   '/reports': 'Reports',
   '/users': 'User Management',
   '/audit': 'Audit Log',
@@ -17,9 +20,34 @@ const routeTitles: Record<string, string> = {
 };
 
 export function Topbar() {
+  const { user, signOut } = useAuth();
   const pathname = usePathname();
   const baseRoute = '/' + (pathname.split('/')[1] ?? '');
   const pageTitle = routeTitles[baseRoute] ?? 'NHPMBR';
+
+  const isAdminView =
+    pathname === '/dashboard' ||
+    pathname.startsWith('/dashboard/') ||
+    pathname.startsWith('/users') ||
+    pathname.startsWith('/audit') ||
+    pathname.startsWith('/admin');
+
+  // Avatar initials
+  const initials = user?.name
+    ?.split(' ')
+    .map((n) => n[0])
+    .join('')
+    .substring(0, 2)
+    .toUpperCase() || 'U';
+
+  // Role colors
+  const isSuperAdmin = user?.role === 'super_admin';
+  const isAdmin = user?.role === 'admin';
+  const gradient = isSuperAdmin
+    ? 'from-amber-500 to-amber-700'
+    : isAdmin
+      ? 'from-accent-600 to-accent-800'
+      : 'from-blue-600 to-blue-800';
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-slate-200/80 bg-white/90 px-6 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/90">
@@ -27,6 +55,11 @@ export function Topbar() {
       <div className="flex items-center gap-2 min-w-0">
         <h2 className="text-base font-semibold text-slate-800 dark:text-slate-200 truncate">{pageTitle}</h2>
         <span className="hidden sm:inline-flex badge-blue text-[10px]">FY 2026</span>
+        {isAdminView && (
+          <span className="hidden sm:inline-flex badge-amber text-[9px] font-bold uppercase tracking-wider">
+            Secure Admin
+          </span>
+        )}
       </div>
 
       {/* Search */}
@@ -66,17 +99,28 @@ export function Topbar() {
         <div className="mx-2 h-6 w-px bg-slate-200 dark:bg-slate-800" />
 
         {/* User avatar */}
-        <div className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
+        <div className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer group">
           <div
-             className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-bold text-white shadow-sm"
-            title="Platform Admin"
+            className={`grid h-8 w-8 place-items-center rounded-full text-xs font-bold text-white shadow-sm bg-gradient-to-br ${gradient}`}
+            title={user ? getRoleLabel(user.role) : 'User'}
           >
-            PA
+            {initials}
           </div>
           <div className="hidden lg:block">
-            <div className="text-xs font-semibold text-slate-800 dark:text-slate-250 leading-tight">Platform Admin</div>
-            <div className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight">admin@nhpmbr.local</div>
+            <div className="text-xs font-semibold text-slate-800 dark:text-slate-250 leading-tight">
+              {user?.name || 'Loading...'}
+            </div>
+            <div className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight">
+              {user?.role ? getRoleLabel(user.role) : '—'} {user?.directorateCode && `· ${user.directorateCode}`}
+            </div>
           </div>
+          <button
+            onClick={signOut}
+            className="ml-2 hidden h-8 w-8 place-items-center rounded-md text-slate-400 hover:bg-slate-200 hover:text-slate-700 group-hover:grid dark:hover:bg-slate-700 dark:hover:text-slate-200"
+            title="Sign out (dev)"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </header>

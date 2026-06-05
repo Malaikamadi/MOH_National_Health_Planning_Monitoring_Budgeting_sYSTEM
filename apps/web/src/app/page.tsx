@@ -104,11 +104,11 @@ export default function HomePage() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href="/login"
                   className="inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20"
                 >
                   <FileCheck2 className="h-4 w-4" />
-                  Explore dashboard
+                  Explore platform
                 </Link>
               </div>
 
