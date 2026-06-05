@@ -67,6 +67,8 @@ const awpStatusConfig: Record<string, { label: string; badge: string }> = {
   not_started: { label: 'Not Started', badge: 'bg-rose-50 text-rose-700 ring-1 ring-rose-600/10 dark:bg-rose-950/40 dark:text-rose-300 dark:ring-rose-500/20' },
 };
 
+const defaultStatusCfg = { label: 'Draft', badge: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400' };
+
 function formatLeones(value: number): string {
   if (value >= 1_000_000) return `Le ${(value / 1_000_000).toFixed(1)}M`;
   if (value >= 1_000) return `Le ${(value / 1_000).toFixed(0)}K`;
@@ -163,7 +165,7 @@ export default function DirectorDashboardPage() {
             <tbody>
               {units.map((unit) => {
                 const utilPct = unit.amountNeeded > 0 ? Math.round((unit.amountUsed / unit.amountNeeded) * 100) : 0;
-                const statusCfg = awpStatusConfig[unit.awpStatus] ?? awpStatusConfig.draft;
+                const statusCfg = awpStatusConfig[unit.awpStatus] ?? defaultStatusCfg;
                 return (
                   <tr key={unit.email} className="dark:border-slate-800/60 dark:hover:bg-slate-800/50">
                     <td>
