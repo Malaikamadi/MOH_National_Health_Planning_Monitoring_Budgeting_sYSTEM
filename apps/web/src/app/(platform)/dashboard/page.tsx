@@ -60,6 +60,8 @@ function statusClass(status: UnitAwp['status']): string {
   return 'badge-slate';
 }
 
+import { DirectoratePerformanceBarChart, BudgetUtilizationPieChart } from '@/components/dashboard-charts';
+
 export default function DashboardPage() {
   const totalUnits = unitAwps.length;
   const submitted = unitAwps.filter((u) => u.status === 'submitted').length;
@@ -92,6 +94,24 @@ export default function DashboardPage() {
         <KpiCard icon={BarChart3} title="Activities performance" value={`${avgPerformance}%`} note="Average across units" />
         <KpiCard icon={DollarSign} title="Amount needed" value={formatLeones(totalNeeded)} note="FY 2026 consolidated" />
         <KpiCard icon={TrendingUp} title="Amount used" value={formatLeones(totalUsed)} note={`${utilization}% utilization`} />
+      </section>
+
+      {/* Visualizations */}
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        <div className="card p-6 dark:border-slate-800/80 dark:bg-slate-900">
+          <div className="mb-4">
+            <h3 className="heading-section dark:text-slate-100">Directorate Performance</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Average activity completion score by directorate</p>
+          </div>
+          <DirectoratePerformanceBarChart />
+        </div>
+        <div className="card p-6 dark:border-slate-800/80 dark:bg-slate-900">
+          <div className="mb-4">
+            <h3 className="heading-section dark:text-slate-100">National Budget Utilization</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Total requested budget vs amount utilized</p>
+          </div>
+          <BudgetUtilizationPieChart />
+        </div>
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
