@@ -96,7 +96,7 @@ const tabs: RoleTab[] = [
 
 export default function LoginPage() {
   const [activeTab, setActiveTab] = useState<UserRole>('super_admin');
-  const [selectedDir, setSelectedDir] = useState(directorateOptions[0].code);
+  const [selectedDir, setSelectedDir] = useState(directorateOptions[0]?.code ?? 'DPPI');
   const [selectedUnitIdx, setSelectedUnitIdx] = useState(0);
   const router = useRouter();
 
