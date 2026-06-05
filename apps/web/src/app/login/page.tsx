@@ -123,7 +123,8 @@ export default function LoginPage() {
     } else {
       const dir = directorateOptions.find((d) => d.code === selectedDir)!;
       const units = unitsByDirectorate[selectedDir] ?? [];
-      const unit = units[selectedUnitIdx] ?? units[0];
+      const fallbackUnit = { name: 'Unknown Unit', email: 'unknown@mohs.gov.sl' };
+      const unit = units[selectedUnitIdx] ?? units[0] ?? fallbackUnit;
       profile = {
         role: 'user',
         name: unit.name,
